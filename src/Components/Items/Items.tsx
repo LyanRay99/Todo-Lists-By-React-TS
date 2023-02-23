@@ -23,15 +23,10 @@ const Items = (props: ItemsProps) => {
       <div className='lists__node__childs'>
         <input type='checkbox' checked={item.done} onChange={handleDone(item.id)}></input>
 
-        <Content
-        // style={props.todo.completed === true ? { textDecoration: 'line-through' } : {}}
-        >
-          {item.name}
-        </Content>
+        <Content style={item.done ? { textDecoration: 'line-through' } : {}}>{item.name}</Content>
       </div>
 
       <ContainerIcon>
-        {/* {props.listTodo === 'Task List' ? ( */}
         <React.Fragment>
           <Icon onClick={() => startEditTodo(item.id)}>
             <FontAwesomeIcon color='orange' icon={faPenToSquare} />
@@ -43,16 +38,6 @@ const Items = (props: ItemsProps) => {
             <FontAwesomeIcon color='red' icon={faTrash} />
           </Icon>
         </React.Fragment>
-        {/* ) : (
-          <React.Fragment>
-            <Icon>
-              <FontAwesomeIcon color='aqua' icon={faRotateLeft} />
-            </Icon>
-            <Icon>
-              <FontAwesomeIcon color='red' icon={faTrash} />
-            </Icon>
-          </React.Fragment>
-        )} */}
       </ContainerIcon>
     </div>
   )

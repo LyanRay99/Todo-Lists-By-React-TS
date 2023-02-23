@@ -23,9 +23,19 @@ import {
 } from '../../SCSS/Styled Components/tagStyled'
 import { ThemeProvider } from 'styled-components'
 
-// interface TodoList {
-//   (todos: Todo[]): Todo[]
-// }
+//* Ta có thể dùng interface hoăc type để định nghĩa Todo
+interface HandleNewTodos {
+  (todos: Todo[]): Todo[]
+}
+
+// type HandleNewTodos = (todos: Todo[]) => Todo[]
+
+const syncReactToLocal = (handleNewTodos: HandleNewTodos) => {
+  const localTodo = localStorage.getItem('todos')
+  const objTodo: Todo[] = JSON.parse(localTodo || '[]')
+  const newTodosObj = handleNewTodos(objTodo)
+  localStorage.setItem('todos', JSON.stringify(newTodosObj))
+}
 
 const TodoList = () => {
   const [todo, setTodo] = useState<Todo[]>([
@@ -40,8 +50,16 @@ const TodoList = () => {
       done: false
     }
   ])
-
   const [currentTodo, setCurrentTodo] = useState<Todo | null>(null)
+  const NotDoneTodo = todo.filter((item) => !item.done)
+  const DoneTodo = todo.filter((item) => item.done)
+
+  //* Get data todo from localstorage
+  useEffect(() => {
+    const localTodo = localStorage.getItem('todos')
+    const objTodo: Todo[] = JSON.parse(localTodo || '[]')
+    setTodo(objTodo)
+  }, [])
 
   //* Completed: Change Theme by Styled-components
   const [theme, setTheme] = useState(DarkTheme)
@@ -62,19 +80,23 @@ const TodoList = () => {
     }
 
     setTodo((pre) => [...todo, objTodo])
-    //todo: set todo into localstorage
+    syncReactToLocal((todosObj: Todo[]) => [...todosObj, objTodo])
   }
 
   //* Completed: Change done
   const doneTodo = (idTodo: string) => {
-    setTodo((prev) => {
-      return prev.map((item) => {
+    const handler = (todoObj: Todo[]) => {
+      const obj = todoObj.map((item) => {
         if (item.id === idTodo) {
           return { ...item, done: !item.done }
         }
         return item
       })
-    })
+      return obj
+    }
+
+    setTodo(handler)
+    syncReactToLocal(handler)
   }
 
   //* Completed: Edit todo
@@ -108,6 +130,7 @@ const TodoList = () => {
 
     setTodo(handler)
     setCurrentTodo(null)
+    syncReactToLocal(handler)
   }
 
   //* Completed: Delete todo
@@ -125,6 +148,7 @@ const TodoList = () => {
 
     //* set lại state
     setTodo(handler)
+    syncReactToLocal(handler)
   }
 
   return (
@@ -142,8 +166,14 @@ const TodoList = () => {
           </div>
 
           <ContainerList>
-            <Lists todo={todo} doneTodo={doneTodo} startEditTodo={startEditTodo} deleteTodo={deleteTodo} />
-            <Lists todo={todo} doneTodo={doneTodo} startEditTodo={startEditTodo} deleteTodo={deleteTodo} />
+            <Lists todo={NotDoneTodo} doneTodo={doneTodo} startEditTodo={startEditTodo} deleteTodo={deleteTodo} />
+            <Lists
+              todo={DoneTodo}
+              doneTodo={doneTodo}
+              startEditTodo={startEditTodo}
+              deleteTodo={deleteTodo}
+              doneTaskList
+            />
           </ContainerList>
         </AppNode>
 
