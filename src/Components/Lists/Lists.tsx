@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { Todo } from '../../@types/todo.type'
 import { Title } from '../../SCSS/Styled Components/tagStyled'
 import Items from '../Items'
@@ -26,3 +27,15 @@ const Lists = (props: ListsProps) => {
 }
 
 export default Lists
+
+Lists.prototype = {
+  doneTaskList: PropTypes.bool,
+  todo: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    done: PropTypes.bool.isRequired
+  }).isRequired,
+  doneTodo: PropTypes.func.isRequired,
+  startEditTodo: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired
+}

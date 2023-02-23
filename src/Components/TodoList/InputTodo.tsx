@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Todo } from '../../@types/todo.type'
 import { InputTodoList, SetBtn } from '../../SCSS/Styled Components/tagStyled'
 
@@ -54,3 +55,14 @@ const InputTodo = (props: InputTodoProps) => {
 }
 
 export default InputTodo
+
+InputTodo.prototype = {
+  currentTodo: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    done: PropTypes.bool.isRequired
+  }).isRequired,
+  addTodo: PropTypes.func.isRequired,
+  editTodo: PropTypes.func.isRequired,
+  finishEditTodo: PropTypes.func.isRequired
+}

@@ -1,5 +1,6 @@
 //* Library
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 // import { v4 } from 'uuid'
 
 //* Type (interface)
@@ -73,14 +74,35 @@ const TodoList = () => {
 
   //* Completed: Add todo
   const addTodo = (name: string) => {
-    var objTodo: Todo = {
-      id: new Date().toISOString(),
-      done: false,
-      name: name
+    //* check text input có bị trùng với 1 trong các todo đã có hay ko
+    var checkTodo: boolean = true
+    todo.map((todo, index) => {
+      if (todo.name === name) {
+        checkTodo = false
+      }
+    })
+
+    //* Check text input có phải toàn space hay ko
+    var checkSpaceText: number = name.replace(/\s/g, '').length
+
+    //* add todo
+    if (checkTodo && checkSpaceText) {
+      var objTodo: Todo = {
+        id: new Date().toISOString(),
+        done: false,
+        name: name
+      }
+
+      setTodo((pre) => [...todo, objTodo])
+      syncReactToLocal((todosObj: Todo[]) => [...todosObj, objTodo])
     }
 
-    setTodo((pre) => [...todo, objTodo])
-    syncReactToLocal((todosObj: Todo[]) => [...todosObj, objTodo])
+    //* Hiển thị thông báo khi User thêm title todo bị trùng hoặc chỉ chứa toàn dấu space
+    if (!checkSpaceText) {
+      alert('Vui lòng nhập công việc bạn cần làm vào ô dưới')
+    } else if (!checkTodo) {
+      alert(`Công việc của bạn hiện đang bị trùng`)
+    }
   }
 
   //* Completed: Change done
@@ -119,18 +141,39 @@ const TodoList = () => {
   }
 
   const finishEditTodo = () => {
-    const handler = (todoObj: Todo[]) => {
-      return todoObj.map((todo) => {
-        if (todo.id === (currentTodo as Todo).id) {
-          return currentTodo as Todo
-        }
-        return todo
-      })
+    // console.log(name)
+    //* check text input có bị trùng với 1 trong các todo đã có hay ko
+    var checkTodo: boolean = true
+    todo.map((todo, index) => {
+      if (todo.name === currentTodo?.name) {
+        checkTodo = false
+      }
+    })
+
+    //* Check text input có phải toàn space hay ko
+    var checkSpaceText: number | undefined = currentTodo?.name.replace(/\s/g, '').length
+
+    if (checkTodo && checkSpaceText) {
+      const handler = (todoObj: Todo[]) => {
+        return todoObj.map((todo) => {
+          if (todo.id === (currentTodo as Todo).id) {
+            return currentTodo as Todo
+          }
+          return todo
+        })
+      }
+
+      setTodo(handler)
+      setCurrentTodo(null)
+      syncReactToLocal(handler)
     }
 
-    setTodo(handler)
-    setCurrentTodo(null)
-    syncReactToLocal(handler)
+    //* Hiển thị thông báo khi User thêm title todo bị trùng hoặc chỉ chứa toàn dấu space
+    if (!checkSpaceText) {
+      alert('Vui lòng nhập công việc bạn cần làm vào ô dưới')
+    } else if (!checkTodo) {
+      alert(`Công việc của bạn hiện đang bị trùng`)
+    }
   }
 
   //* Completed: Delete todo
@@ -189,3 +232,5 @@ const TodoList = () => {
 }
 
 export default TodoList
+
+TodoList.prototype = {}
