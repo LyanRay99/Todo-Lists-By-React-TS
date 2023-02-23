@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Todo } from '../../@types/todo.type'
 import { Content, ContainerIcon, Icon } from '../../SCSS/Styled Components/tagStyled'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -31,9 +32,9 @@ const Items = (props: ItemsProps) => {
           <Icon onClick={() => startEditTodo(item.id)}>
             <FontAwesomeIcon color='orange' icon={faPenToSquare} />
           </Icon>
-          <Icon>
+          {/* <Icon>
             <FontAwesomeIcon color='green' icon={faSquareCheck} />
-          </Icon>
+          </Icon> */}
           <Icon onClick={() => deleteTodo(item.id)}>
             <FontAwesomeIcon color='red' icon={faTrash} />
           </Icon>
@@ -44,3 +45,14 @@ const Items = (props: ItemsProps) => {
 }
 
 export default Items
+
+Items.prototype = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    done: PropTypes.bool.isRequired
+  }).isRequired,
+  doneTodo: PropTypes.func.isRequired,
+  startEditTodo: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired
+}

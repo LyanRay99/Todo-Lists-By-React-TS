@@ -1,6 +1,6 @@
 @media screen and (max-width: 1250px) {
   section {
-    width: 90%;
+    width: 90% !important;
   }
 }
 
@@ -8,14 +8,18 @@
   section {
     .app__node {
       .sc-hLBbgP {
-        height: 380px;
+        height: 380px !important;
         overflow-y: scroll;
 
         .listTotal {
-          width: 100%;
+          width: 100% !important;
+          padding: 5% !important;
 
           .lists {
             height: auto;
+            overflow: hidden !important;
+            padding: 10px !important;
+            margin: 20px 0px;
           }
         }
       }
