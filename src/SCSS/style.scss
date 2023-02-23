@@ -1,0 +1,197 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$bgc: rgb(84, 80, 80);
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+body {
+  background-color: black;
+}
+
+section {
+  @include size(1200px, 600px);
+  margin: auto;
+  margin-top: calc((100vh - 600px) / 2);
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  // border: 2px solid red;
+
+  .app__node {
+    @include size(98.5%, 98%);
+    padding: 20px;
+    border-radius: 20px;
+    // background-color: $bgc;
+    position: absolute;
+    top: 1%;
+    left: 0.75%;
+    z-index: 2;
+    // overflow: scroll;
+
+    .title {
+      @include size(200px, auto);
+      margin: auto;
+    }
+
+    .inputTodo {
+      @include size(96.5%, 30px);
+      margin: 20px auto;
+      border-radius: 20px;
+      display: flex;
+
+      input {
+        @include size(90%, 100%);
+        height: calc(100% + 0.01px);
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        padding: 0px 10px;
+        outline: none;
+      }
+
+      button {
+        @include size(10%, 100%);
+        width: 100px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border: 2px solid white;
+        font-size: 0.8em;
+        font-weight: bold;
+        cursor: pointer;
+        // background-color: greenyellow;
+      }
+    }
+
+    .setColor {
+      @include size(100%, 25px);
+      margin: 10px 0px 20px 0px;
+      display: flex;
+      justify-content: space-around;
+
+      button {
+        @include size(100px, 100%);
+        border: none;
+        border-radius: 10px;
+        // background-color: greenyellow;
+        // color: black;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+
+    .sc-hLBbgP {
+      @include size(100%, auto);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .listTotal {
+        @include size(50%, auto);
+
+        .lists {
+          @include size(100%, 320px);
+          // background-color: rebeccapurple;
+          padding: 20px 0px;
+          // padding: 5px;
+          overflow: auto;
+
+          &__node {
+            @include size(100%, auto);
+            display: flex;
+            justify-content: space-between;
+            margin: 0px 0px 20px 0px;
+
+            &__childs {
+              @include size(100%, auto);
+              display: flex;
+              justify-content: space-between;
+
+              input {
+                @include size(20px, auto);
+                cursor: pointer;
+              }
+
+              p {
+                @include size(100%, auto);
+                padding: 0px 10px;
+                font-weight: bold;
+                font-size: 0.8em;
+              }
+            }
+
+            div {
+              // @include size(100px, auto);
+              color: white;
+              font-weight: bold;
+              font-size: 1.5em;
+              cursor: pointer;
+            }
+          }
+        }
+
+        &:first-child {
+          padding-right: 10px;
+        }
+
+        &:last-child {
+          padding-left: 10px;
+        }
+      }
+    }
+  }
+
+  .effect {
+    @include size(400%, 400%);
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    top: -150%;
+    left: -150%;
+    // top: -450px;
+    // left: -900px;
+    z-index: 1;
+    animation: appEffect 4s linear infinite;
+
+    div {
+      @include size(50%, 50%);
+    }
+
+    // &__bgc {
+    //   background-color: greenyellow;
+    // }
+
+    &__black {
+      background-color: black;
+    }
+  }
+}
+
+@keyframes appEffect {
+  to {
+    transform: rotate(0deg);
+  }
+  from {
+    transform: rotate(360deg);
+  }
+}
+
+//* Custom Scrollbar
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: white;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: greenyellow;
+  border-radius: 10px;
+}
