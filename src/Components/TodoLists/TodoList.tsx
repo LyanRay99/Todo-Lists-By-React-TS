@@ -220,12 +220,12 @@ const TodoList = () => {
           </ContainerList>
         </AppNode>
 
-        {/* <div className='effect'>
+        <div className='effect'>
           <SpinEffect></SpinEffect>
           <div className='effect__black'></div>
           <div className='effect__black'></div>
           <SpinEffect></SpinEffect>
-        </div> */}
+        </div>
       </section>
     </ThemeProvider>
   )
